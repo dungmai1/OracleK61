@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head ::head"></head>
+<body id="page-top">
+<!-- Page Wrapper -->
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div th:replace="/fragments/sidebar ::sidebar"></div>
+  <!-- End of Sidebar -->
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+      <!-- Topbar -->
+      <div th:replace="/fragments/topbar ::topbar"></div>
+      <!-- End of Topbar -->
+
+      <div th:if="${successMessage}" class="alert alert-success" role="alert">
+        <span th:text="${successMessage}"></span>
+      </div>
+      <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+        <span th:text="${errorMessage}"></span>
+      </div>
+      <div class="container">
+        <div>
+          <div th:replace="/fragments/nav ::nav"></div>
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Product Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Picture</th>
+              <th scope="col">Action</th>
+              <th scope="col">Outstanding Product</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product, iterStat : ${productList}" th:sort="${product.id}">
+              <th scope="row" th:text="${iterStat.count}"></th>
+              <td th:text="${product.product_name}"></td>
+              <td th:text="${#strings.replace(#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT'), '.00', '')}"></td>
+              <td><img width="100px" th:src="${product.pictures}"></td>
+              <td>
+                <a th:href="@{/admin/product/update/{product_id}(product_id=${product.id})}">Edit</a>
+              </td>
+              <td>
+                <form th:action="@{/admin/product/popular/{product_id}(product_id=${product.id})}" method="post">
+                  <button type="submit">Add to Outstanding Product List</button>
+                </form>
+              </td>
+              <!-- Add more cells as needed -->
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <div th:replace="/fragments/footer ::footer"></div>
+    <!-- End of Footer -->
+
+  </div>
+  <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary" href="login.html">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Bootstrap CSS -->
+
+<!-- Bootstrap core JavaScript-->
+<div th:replace="/fragments/scripts ::scripts"></div>
+</body>
+
+</html>

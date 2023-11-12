@@ -1,0 +1,13 @@
+<!-- fragments/nav.html -->
+<div th:fragment="nav">
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Select Category
+    </button>
+    <div class="dropdown-menu" aria-labelledby="categoryDropdown">
+      <a class="dropdown-item" href="#" th:each="cat : ${categoryList}" th:href="@{'/admin/product/category?categoryId=' + ${cat.id}}">
+        <span th:text="${cat.category_name}"></span>
+      </a>
+    </div>
+  </div>
+</div>

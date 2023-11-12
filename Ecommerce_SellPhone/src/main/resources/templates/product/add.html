@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head ::head"></head>
+<body id="page-top">
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+  <!-- Sidebar -->
+  <div th:replace="/fragments/sidebar ::sidebar"></div>
+  <!-- End of Sidebar -->
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+      <!-- Topbar -->
+      <div th:replace="/fragments/topbar ::topbar"></div>
+      <!-- End of Topbar -->
+
+      <!-- Begin Page Content -->
+      <!-- /.container-fluid -->
+      <div class="container">
+        <form th:action="@{/admin/product/add}" method="post" th:object="${productDTO}">
+          <!-- Category -->
+          <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select class="form-select" id="category" name="category" th:field="*{category_ID}" required>
+              <option th:each="category : ${categoryList}" th:value="${category.id}" th:text="${category.category_name}"></option>
+            </select>
+          </div>
+          <!-- Provider -->
+          <div class="mb-3">
+            <label for="provider" class="form-label">Provider</label>
+            <select class="form-select" id="provider" name="provider" th:field="*{provider_ID}" required>
+              <option th:each="provider : ${providerList}" th:value="${provider.id}" th:text="${provider.provider_name}"></option>
+            </select>
+          </div>
+
+          <!-- Product Name -->
+          <div class="mb-3">
+            <label for="productName" class="form-label">Product Name</label>
+            <input type="text" class="form-control" id="productName" name="productName" th:field="*{product_name}" required>
+          </div>
+          <!-- Price -->
+          <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" class="form-control" id="price" name="price" th:field="*{price}"required>
+          </div>
+
+          <!-- Product Description -->
+          <div class="mb-3">
+            <label for="productDescription" class="form-label">Product Description</label>
+            <textarea class="form-control" id="productDescription" name="productDescription" rows="3"th:field="*{product_describe}" required></textarea>
+          </div>
+
+          <!-- Pictures -->
+          <div class="mb-3">
+            <label for="pictures" class="form-label">Pictures</label>
+            <input type="text" class="form-control" id="pictures" name="pictures" th:field="*{pictures}" required
+                   oninput="displayImage(this, 'image-preview0')">
+            <img id="image-preview0" src="" width="150px" height="100px">
+          </div>
+
+          <!-- Screen Size -->
+          <div class="mb-3">
+            <label for="screenSize" class="form-label">Screen Size</label>
+            <input type="text" class="form-control" id="screenSize" name="screenSize" th:field="*{screenSize}"required>
+          </div>
+
+          <!-- OS -->
+          <div class="mb-3">
+            <label for="os" class="form-label">Operating System</label>
+            <input type="text" class="form-control" id="os" name="os"th:field="*{OS}" required>
+          </div>
+
+          <!-- Memory Storage Capacity -->
+          <div class="mb-3">
+            <label for="memoryCapacity" class="form-label">Memory Storage Capacity</label>
+            <input type="text" class="form-control" id="memoryCapacity" name="memoryCapacity"th:field="*{memory_Storage_Capacity}" required>
+          </div>
+
+          <!-- Front Camera -->
+          <div class="mb-3">
+            <label for="frontCamera" class="form-label">Front Camera</label>
+            <input type="text" class="form-control" id="frontCamera" name="frontCamera" th:field="*{front_Camera}"required>
+          </div>
+
+          <!-- Back Camera -->
+          <div class="mb-3">
+            <label for="backCamera" class="form-label">Back Camera</label>
+            <input type="text" class="form-control" id="backCamera" name="backCamera" th:field="*{back_Camera}"required>
+          </div>
+
+          <!-- Category (Assuming you have a select dropdown for categories) -->
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary" onclick="return confirm('Save Changes?')">Submit</button>
+        </form>
+
+      </div>
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <div th:replace="/fragments/footer ::footer"></div>
+    <!-- End of Footer -->
+
+  </div>
+  <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary" href="login.html">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function displayImage(input, previewId) {
+    var imagePreview = document.getElementById(previewId);
+    var imageUrl = input.value.trim();
+
+    // Clear the image preview if the URL is empty
+    if (imageUrl === '') {
+      imagePreview.src = '';
+      return;
+    }
+
+    // Validate if the entered URL is a valid image URL
+    if (isValidImageUrl(imageUrl)) {
+      // Set the image source (src) attribute to the entered URL
+      imagePreview.src = imageUrl;
+    } else {
+      // Handle invalid URL (e.g., display an error message)
+      alert('Invalid image URL');
+      // You may choose to clear the input or handle it differently based on your use case
+      input.value = '';
+      imagePreview.src = '';
+    }
+  }
+
+  // Function to validate if the entered URL is a valid image URL
+  function isValidImageUrl(url) {
+    // You may want to implement a more thorough validation
+    // Here, a simple check if the URL ends with a common image extension is used
+    return /\.(jpeg|jpg|gif|png)$/.test(url.toLowerCase());
+  }
+</script>
+<!-- Bootstrap core JavaScript-->
+<div th:replace="/fragments/scripts ::scripts"></div>
+</body>
+
+</html>
