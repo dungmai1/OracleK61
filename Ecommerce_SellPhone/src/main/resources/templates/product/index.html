@@ -27,7 +27,11 @@
       <div class="container">
         <div>
           <div th:replace="/fragments/nav ::nav"></div>
-          <table class="table">
+          <form th:action="@{/admin/product/search}" method="get">
+            <input type="text" name="product_name" placeholder="Enter product name">
+            <button type="submit">Search</button>
+          </form>
+          <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
             <tr>
               <th scope="col">#</th>
@@ -98,7 +102,11 @@
   </div>
 </div>
 <!-- Bootstrap CSS -->
-
+<script>
+  $(document).ready(function() {
+    $("#example").DataTable();
+  });
+</script>
 <!-- Bootstrap core JavaScript-->
 <div th:replace="/fragments/scripts ::scripts"></div>
 </body>

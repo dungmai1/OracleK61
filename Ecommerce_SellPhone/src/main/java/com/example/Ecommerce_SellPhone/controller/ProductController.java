@@ -67,4 +67,5 @@ public class ProductController {
         ProductDTO productDTO = productService.getProductDTO(product);
         return productDTO;
     }
+
 }

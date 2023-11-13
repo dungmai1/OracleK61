@@ -92,4 +92,12 @@ public class Product_Controller {
         redirectAttributes.addFlashAttribute("successMessage", "Product updated successfully!");
         return "redirect:/admin/product/";
     }
+    @GetMapping("/search")
+    public String search(@RequestParam(name = "product_name") String product_name,Model model) {
+        List<ProductDTO> productList = productService.searchProduct(product_name);
+        model.addAttribute("productList", productList);
+        List<Category> categoryList = categoryService.getAllCategory();
+        model.addAttribute("categoryList",categoryList);
+        return "product/index";
+    }
 }
