@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/popular")
-@CrossOrigin("http://localhost:8081/")
 public class PopularProductController {
     @Autowired
     private PopularProductListService popularProductListService;

@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/provider")
-@CrossOrigin("http://localhost:8081/")
 public class ProviderController {
     @Autowired
     private ProviderService providerService;

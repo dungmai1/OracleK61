@@ -14,17 +14,5 @@ import java.util.List;
 @Controller
 @RequestMapping("admin/customer")
 public class Customer_Controller {
-    @Autowired
-    private CustomerService customerService;
-    @GetMapping("/")
-    public String customer(Model model){
-        List<Customer> customerList = customerService.getAllUser();
-        customerList.sort(Comparator.comparing(Customer::getId));
-        model.addAttribute("customerList",customerList);
-        return "customer/index";
-    }
-    @GetMapping("/add")
-    public String add(Model model){
-        return "customer/add";
-    }
+
 }

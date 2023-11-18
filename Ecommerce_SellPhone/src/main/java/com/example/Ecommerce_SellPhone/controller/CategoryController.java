@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/category")
-@CrossOrigin("http://localhost:8081/")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;

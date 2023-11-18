@@ -19,38 +19,5 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/customer")
-@CrossOrigin("http://localhost:8081/")
 public class CustomerController {
-    @Autowired
-    private CustomerService customerService;
-    @Autowired
-    private AuthService authService;
-    @PostMapping("/signup")
-    public ResponseDTO createCustomer(@RequestBody SignUpDTO signUpDTO){
-        return customerService.createCustomer(signUpDTO);
-    }
-    @PostMapping("/signin")
-    public SignInResponseDTO signIn(@RequestBody SignInDTO signInDTO){
-        return customerService.SignIn(signInDTO);
-    }
-    @PostMapping("/update/{token}")
-    public ResponseEntity<ApiResponse> updateCustomer(@PathVariable("token")String token,
-                                                      @RequestParam("customer_id") int customer_id,
-                                                      @RequestParam("name") String name,
-                                                      @RequestParam("email") String email
-                                                      ){
-        authService.authenticate(token);
-        Customer customer = authService.getCustomer(token);
-        customerService.updateCustomer(customer,customer_id,email,name);
-        return new ResponseEntity<>(new ApiResponse(true,"updated success"), HttpStatus.CREATED);
-    }
-    @GetMapping("/")
-    public ResponseEntity<List<Customer>> getAllUser(){
-        List<Customer> customerList = customerService.getAllUser();
-        return new ResponseEntity<>(customerList,HttpStatus.OK);    }
-    @GetMapping("/getSingleCustomer")
-    public ResponseEntity<Customer> getSingleCustomer(@RequestParam("customer_id")int customer_id){
-        Customer customer = customerService.getSingleCustomer(customer_id);
-        return new ResponseEntity<>(customer,HttpStatus.OK);
-    }
 }
