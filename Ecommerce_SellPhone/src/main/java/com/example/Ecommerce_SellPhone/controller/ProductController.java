@@ -19,6 +19,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/product")
+@CrossOrigin("http://localhost:8081/")
 public class ProductController {
     @Autowired
     private ProductService productService;
@@ -29,22 +30,36 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
     @PostMapping("/create")
-    public ResponseEntity<ApiResponse> createProduct(@RequestBody ProductDTO productDTO){
-        Optional<Category> optionalCategory = categoryRepository.findById(productDTO.getCategory_ID());
-        Optional<Provider> optionalProvider = providerRepository.findById(productDTO.getProvider_ID());
-        if(!optionalCategory.isPresent() && !optionalProvider.isPresent()){
-            return new ResponseEntity<>(new ApiResponse(false,"category or provider does not exists"), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ApiResponse> createProduct(@RequestBody ProductDTO productDTO) {
+        // Check if category_ID is not null and exists in the database
+        if (productDTO.getCategory_ID() != null) {
+            Optional<Category> optionalCategory = categoryRepository.findById(productDTO.getCategory_ID());
+            if (!optionalCategory.isPresent()) {
+                return new ResponseEntity<>(new ApiResponse(false, "Category does not exist"), HttpStatus.BAD_REQUEST);
+            }
         }
+
+        // Check if provider_ID is not null and exists in the database
+        if (productDTO.getProvider_ID() != null) {
+            Optional<Provider> optionalProvider = providerRepository.findById(productDTO.getProvider_ID());
+            if (!optionalProvider.isPresent()) {
+                return new ResponseEntity<>(new ApiResponse(false, "Provider does not exist"), HttpStatus.BAD_REQUEST);
+            }
+        }
+
+        // If both category and provider are valid, proceed to create the product
         productService.createProduct(productDTO);
-        return new ResponseEntity<>(new ApiResponse(true,"product has been added"),HttpStatus.CREATED);
+
+        return new ResponseEntity<>(new ApiResponse(true, "Product has been added"), HttpStatus.CREATED);
     }
+
     @GetMapping("/")
     public ResponseEntity<List<ProductDTO>> getAllProduct(){
         List<ProductDTO> productDTOList = productService.getAllProduct();
         return new ResponseEntity<>(productDTOList,HttpStatus.OK);
     }
     @GetMapping("/{Category_ID}")
-    public ResponseEntity<List<ProductDTO>> getAllProductsByCategoryId(@PathVariable Integer Category_ID) {
+    public ResponseEntity<List<ProductDTO>> getAllProductsByCategoryId(@PathVariable("Category_ID") int Category_ID) {
         List<ProductDTO> productDTOList = productService.getAllProductByCategory(Category_ID);
         return new ResponseEntity<>(productDTOList,HttpStatus.OK);
     }
@@ -61,10 +76,9 @@ public class ProductController {
         productService.updateProduct(productDTO);
         return new ResponseEntity<>(new ApiResponse(true,"product has been added"),HttpStatus.CREATED);
     }
-    @GetMapping("/getSingleProduct")
-    public ProductDTO getSingleProduct(@RequestParam("product_id") int product_id){
-        Product product = productService.findById(product_id);
-        ProductDTO productDTO = productService.getProductDTO(product);
+    @GetMapping("/singleProduct/{product_id}")
+    public ProductDTO getSingleProduct(@PathVariable("product_id") int product_id){
+        ProductDTO productDTO = productService.FindByID(product_id);
         return productDTO;
     }
 

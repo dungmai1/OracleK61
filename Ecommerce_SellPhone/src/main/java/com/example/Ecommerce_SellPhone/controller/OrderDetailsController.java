@@ -28,4 +28,9 @@ public class OrderDetailsController {
         List<Order_Details> orderDetails = orderDetailsService.getAllOrderDetails(customer,order_id);
         return new ResponseEntity<>(orderDetails, HttpStatus.OK);
     }
+    @GetMapping("/")
+    public ResponseEntity<List<Order_Details>> getAllOrderDetails(@RequestParam("order_id")int order_id) {
+        List<Order_Details> orderDetails = orderDetailsService.getOrderDetail_OrderID(order_id);
+        return new ResponseEntity<>(orderDetails, HttpStatus.OK);
+    }
 }

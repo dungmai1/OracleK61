@@ -15,11 +15,11 @@ public interface ProductService  {
     public void createProduct(ProductDTO productDTO);
     public List<ProductDTO> getAllProduct();
     public ProductDTO getProductDTO(Product product);
-    public List<ProductDTO> getAllProductByCategory(Integer Category_ID);
+    public List<ProductDTO> getAllProductByCategory(int Category_ID);
 
-    Product findById(Integer productID);
+    Product findById(int productID);
     public List<ProductDTO> searchProduct(String product_name);
 
     void updateProduct(ProductDTO productDTO);
-    ProductDTO FindByID(Integer productID);
+    ProductDTO FindByID(int productID);
 }

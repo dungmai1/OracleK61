@@ -11,4 +11,5 @@ public interface CategoryService {
     public void updateCategory(CategoryDTO categoryDTO);
     Category findById(Integer id);
     Boolean delete(Integer id);
+    public Category getCategoryById(int category_id);
 }

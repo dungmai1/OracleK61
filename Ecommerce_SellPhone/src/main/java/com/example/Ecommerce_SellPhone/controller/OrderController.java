@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/order")
+@CrossOrigin("http://localhost:8081/")
 public class OrderController {
     @Autowired
     private OrderService orderService;
@@ -39,6 +40,11 @@ public class OrderController {
         authService.authenticate(token);
         Customer customer = authService.getCustomer(token);
         List<Order> order = orderService.getAllOrder(customer);
+        return new ResponseEntity<>(order, HttpStatus.OK);
+    }
+    @GetMapping("/")
+    public ResponseEntity<List<Order>> getAllOrder() {
+        List<Order> order = orderService.getAllOrderAmin();
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 }

@@ -64,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> getAllProductByCategory(Integer Category_ID) {
+    public List<ProductDTO> getAllProductByCategory(int Category_ID) {
         List<Product> products = productRepository.findAllByCategoryId(Category_ID);
         List<ProductDTO> productDTOList = new ArrayList<>();
         for(Product product:  products){
@@ -73,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
         return productDTOList;
     }
     @Override
-    public Product findById(Integer productID) throws ProductNotExistsException{
+    public Product findById(int productID) throws ProductNotExistsException{
         Optional<Product> optionalProduct = productRepository.findById(productID);
         if(optionalProduct.isEmpty()){
             throw new ProductNotExistsException("product id is valid " + productID);
@@ -110,7 +110,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO FindByID(Integer productID) {
+    public ProductDTO FindByID(int productID) {
         Optional<Product> optionalProduct = productRepository.findById(productID);
         if(optionalProduct.isEmpty()){
             throw new ProductNotExistsException("product id is valid " + productID);

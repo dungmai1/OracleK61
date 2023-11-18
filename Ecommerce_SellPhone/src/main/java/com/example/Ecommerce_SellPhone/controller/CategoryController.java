@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/category")
+@CrossOrigin("http://localhost:8081/")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
@@ -32,7 +33,26 @@ public class CategoryController {
     }
     @PutMapping("/update")
     public ResponseEntity<ApiResponse> updateCategory(@RequestBody CategoryDTO categoryDTO){
-        categoryService.updateCategory(categoryDTO);
-        return new ResponseEntity<>(new ApiResponse(true, "Update category success"), HttpStatus.INTERNAL_SERVER_ERROR);
+        try {
+            categoryService.updateCategory(categoryDTO);
+            return new ResponseEntity<>(new ApiResponse(true, "Update category success"), HttpStatus.OK);
+        } catch (Exception e) {
+            // Log the exception for debugging purposes
+            e.printStackTrace();
+            return new ResponseEntity<>(new ApiResponse(false, "Failed to update category"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/{category_id}")
+    public ResponseEntity<Category> getCategoryById(@PathVariable("category_id") int category_id){
+        Category category = categoryService.getCategoryById(category_id);
+        return new ResponseEntity<>(category,HttpStatus.OK);
+    }
+    @DeleteMapping("/delete/{category_id}")
+    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable("category_id") int category_id){
+        if (categoryService.delete(category_id)){
+            return new ResponseEntity<>(new ApiResponse(true,"deleted success"), HttpStatus.NO_CONTENT);
+        }else{
+            return new ResponseEntity<>(new ApiResponse(false, "Category not found or deletion failed"), HttpStatus.NOT_FOUND);
+        }
     }
 }

@@ -11,4 +11,6 @@ public interface ProviderService {
     public List<Provider> getAllProvider();
     Provider findById(Integer id);
     void updateProvider(Provider provider);
+    Boolean deleteProvider(int provider_id);
+    Provider getProviderById(int provider_id);
 }

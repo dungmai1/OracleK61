@@ -47,4 +47,21 @@ public class ProviderImpl implements ProviderService {
                 provider.getProvider_website()
         );
     }
+
+    @Override
+    public Boolean deleteProvider(int provider_id) {
+        try{
+            providerRepository.delete(findById(provider_id));
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public Provider getProviderById(int provider_id) {
+        Provider provider = providerRepository.findById(provider_id).get();
+        return provider;
+    }
 }
